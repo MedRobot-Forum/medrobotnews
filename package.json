@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start -p 3000",
-    "prod": "next build && pm2 start npm --name 'medrobotnews' -- start",
-    "lint": "next lint"
+    "prod": "prisma generate && next build && pm2 start npm --name 'medrobotnews' -- start",
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",

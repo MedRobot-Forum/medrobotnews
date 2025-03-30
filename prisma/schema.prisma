@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model WeeklyReport {
+  id        Int      @id @default(autoincrement())
+  title     String
+  date      DateTime
+  content   String
+  link      String
+  summary   String   // 简要统计
+  approvals ApprovalRecord[] // 新获批记录
+  changes   ChangeRecord[]   // 变更记录
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ApprovalRecord {
+  id            Int          @id @default(autoincrement())
+  companyName   String       // 公司名称
+  productName   String       // 产品名称
+  category      String       // 类别
+  certNumber    String       // 证书编号
+  approvalDate  DateTime     // 获批日期
+  weeklyReport  WeeklyReport @relation(fields: [reportId], references: [id])
+  reportId      Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model ChangeRecord {
+  id            Int          @id @default(autoincrement())
+  companyName   String       // 公司名称
+  productName   String       // 产品名称
+  category      String       // 类别
+  certNumber    String       // 证书编号
+  changeContent String       // 变更内容
+  changeDate    DateTime     // 变更日期
+  weeklyReport  WeeklyReport @relation(fields: [reportId], references: [id])
+  reportId      Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+} 

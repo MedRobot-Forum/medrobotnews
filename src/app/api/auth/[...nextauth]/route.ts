@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma"
 
 export const runtime = 'nodejs'
 
-const handler = NextAuth({
+const auth = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHub({
@@ -24,4 +24,5 @@ const handler = NextAuth({
   },
 })
 
-export { handler as GET, handler as POST } 
+// 使用 auth.handleRequest() 创建请求处理器
+export const { GET, POST } = auth.handlers 

@@ -1,9 +1,9 @@
-import NextAuth, { NextAuthConfig } from "next-auth"
+import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
 
-const config: NextAuthConfig = {
+export const config = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHub({
@@ -22,7 +22,6 @@ const config: NextAuthConfig = {
 }
 
 const handler = NextAuth(config)
+export const auth = handler.auth
 
-export const { auth: middleware } = handler
-export const { signIn, signOut } = handler
-export const { GET, POST } = handler 
+export default handler 
